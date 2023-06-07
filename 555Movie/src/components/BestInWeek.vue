@@ -1,0 +1,66 @@
+<template>
+  <div id="bestInWeekContainer">
+    <div class="bestInWeekWrapper">
+      <div class="header">
+        <h2>本周最佳电影</h2>
+        <div class="more">
+          <span>更多></span>
+        </div>
+      </div>
+      <div class="content">
+        <ul>
+          <li v-for="i in cardsNum">
+            <ListCard> </ListCard>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+<script setup>
+import { ref } from "vue";
+import ListCard from "../components/ListCard.vue";
+
+const cardsNum = ref(6);
+const weeks = ref(["周一", "周二", "周三", "周四", "周五", "周六", "周日"]);
+</script>
+<style scoped>
+.bestInWeekWrapper {
+  width: 100%;
+}
+
+.header {
+  position: relative;
+  width: 100%;
+}
+
+.header h2 {
+  color: #fff;
+}
+
+.more {
+  position: absolute;
+  box-sizing: content-box;
+  right: 50px;
+  top: 10px;
+  background-color: var(--bg--part1--);
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.more:hover {
+  color: var(--hover--color--);
+}
+
+li {
+  display: inline-block;
+  color: #fff;
+  margin: 0 10px;
+}
+
+.content {
+  margin-left: -50px;
+  margin-top: 35px;
+}
+</style>

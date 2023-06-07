@@ -1,0 +1,28 @@
+:root {
+  --bg--main-- : #1A1C1F;
+  --bg--part1-- : #16161a;
+  --hover--color-- : #f96518;
+  --actve--backgroundColor-- : #25252b;
+}
+:root {
+  background-color: #1A1C1F;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: #e1e3e5;
+  overflow: hidden;
+}
+
+h2 {
+  margin-left: 8px;
+}
+

@@ -1,7 +1,11 @@
 <template>
   <div class="videoPlayingPageContainer">
     <div class="main">
-      <div class="video"></div>
+      <div class="video">
+        <video width="100%" height="100%" controls>
+          <source src="" />
+        </video>
+      </div>
       <div class="videoInfo">
         <div class="mainInfo">
           <div class="top">
@@ -27,9 +31,24 @@
           </div>
         </div>
         <div class="videoControl">
-          <span>排序</span>
-          <span>报错</span>
-          <span>分享</span>
+          <span>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-paixu"></use>
+            </svg>
+            排序
+          </span>
+          <span>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-baocuo-dianji"></use>
+            </svg>
+            报错
+          </span>
+          <span>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-fenxiang"></use>
+            </svg>
+            分享
+          </span>
         </div>
       </div>
     </div>
@@ -72,7 +91,8 @@ const numOfListCards = ref(12);
 .video {
   width: 75%;
   height: 460px;
-  border: solid 1px red;
+  /* border: solid 1px red; */
+  z-index: 2;
 }
 
 .videoInfo {
@@ -84,6 +104,18 @@ const numOfListCards = ref(12);
 
 .videoInfo .title {
   font-size: 1.3em;
+}
+
+.videoInfo .title::before {
+  content: "";
+  display: inline-block;
+  position: relative;
+  top: 3px;
+  right: 12px;
+  width: 10px;
+  height: 20px;
+  border-radius: 3px;
+  background-color: var(--hover--color--);
 }
 
 .mainInfo .top {
@@ -157,6 +189,10 @@ const numOfListCards = ref(12);
 
 .videoControl span:hover {
   color: var(--hover--color--);
+}
+
+.videoControl span:hover .icon {
+  fill: var(--hover--color--);
 }
 
 .videoControl span:not(:last-child)::after {

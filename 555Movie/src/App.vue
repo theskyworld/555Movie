@@ -11,7 +11,7 @@ import ComicPage from "./pages/ComicPage.vue";
 import ComicLibraryPage from "./pages/ComicLibraryPage.vue";
 import TvShowPage from "./pages/TvShowPage.vue";
 import TvShowLibraryPage from "./pages/TvShowLibraryPage.vue";
-import VideoDetail from "./pages/VideoDetail.vue";
+import VideoDetailPage from "./pages/VideoDetailPage.vue";
 import VideoPlayingPage from "./pages/VideoPlayingPage.vue";
 </script>
 
@@ -41,7 +41,7 @@ import VideoPlayingPage from "./pages/VideoPlayingPage.vue";
           <!-- <TvShowPage></TvShowPage> -->
           <!-- <TvShowLibraryPage></TvShowLibraryPage> -->
 
-          <!-- <VideoDetail></VideoDetail> -->
+          <!-- <VideoDetailPage></VideoDetailPage> -->
           <VideoPlayingPage></VideoPlayingPage>
         </div>
       </div>

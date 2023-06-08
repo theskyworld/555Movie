@@ -11,8 +11,7 @@
 <script setup>
 import WatchHistory from "./WatchHistory.vue";
 import { ref, onMounted } from "vue";
-import PersonCenter from './PersonCenter.vue';
-
+import PersonCenter from "./PersonCenter.vue";
 </script>
 <style scoped>
 .personInfoContainer {
@@ -22,10 +21,12 @@ import PersonCenter from './PersonCenter.vue';
 
 .watchHistory {
   width: 300px;
+  transform: translate(130px, 0);
 }
 
 .personCenter {
   width: 100px;
   margin-left: 20px;
+  transform: translate(80px, 0);
 }
 </style>

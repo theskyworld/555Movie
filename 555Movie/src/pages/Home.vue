@@ -4,35 +4,37 @@
       <div class="slideShow">
         <SlideShow></SlideShow>
       </div>
-      <div class="weekly">
-        <Weekly></Weekly>
-      </div>
-      <div class="bestInMonth">
-        <BestInMonth></BestInMonth>
-      </div>
-      <div class="bestInWeek">
-        <BestInWeek></BestInWeek>
-      </div>
-      <div class="netfilx">
-        <Netflix></Netflix>
-      </div>
-      <div class="hotEurAndAmer">
-        <HotEurAndAmer></HotEurAndAmer>
-      </div>
-      <div class="hotJapanAndKore">
-        <HotJapanAndKore></HotJapanAndKore>
-      </div>
-      <div class="hotHongAndTai">
-        <HotHongAndTai></HotHongAndTai>
-      </div>
-      <div class="hotTvs">
-        <HotTvs></HotTvs>
-      </div>
-      <div class="hotComics">
-        <HotComics></HotComics>
-      </div>
-      <div class="hotTvShows">
-        <HotTvShows></HotTvShows>
+      <div class="main">
+        <div class="weekly">
+          <Weekly></Weekly>
+        </div>
+        <div class="bestInMonth">
+          <BestInMonth></BestInMonth>
+        </div>
+        <div class="bestInWeek">
+          <BestInWeek></BestInWeek>
+        </div>
+        <div class="netfilx">
+          <Netflix></Netflix>
+        </div>
+        <div class="hotEurAndAmer">
+          <HotEurAndAmer></HotEurAndAmer>
+        </div>
+        <div class="hotJapanAndKore">
+          <HotJapanAndKore></HotJapanAndKore>
+        </div>
+        <div class="hotHongAndTai">
+          <HotHongAndTai></HotHongAndTai>
+        </div>
+        <div class="hotTvs">
+          <HotTvs></HotTvs>
+        </div>
+        <div class="hotComics">
+          <HotComics></HotComics>
+        </div>
+        <div class="hotTvShows">
+          <HotTvShows></HotTvShows>
+        </div>
       </div>
     </div>
   </div>
@@ -54,8 +56,9 @@ import HotTvShows from "../components/HotTvShows.vue";
 </script>
 
 <style scoped>
-.weekly {
-  margin-top: 10px;
+.main {
+  position: relative;
+  top: -50px;
 }
 
 .bestInMonth {

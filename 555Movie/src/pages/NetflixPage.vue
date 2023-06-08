@@ -12,7 +12,7 @@
         </ul>
       </div>
       <div class="pagination">
-        <el-pagination background layout="prev, pager, next" :total="1000" />
+        <el-pagination background layout="prev, pager, next" :total="20" />
       </div>
     </div>
   </div>
@@ -26,6 +26,7 @@ const cardsNumPerPage = ref(30);
 <style scoped>
 .netflixPageContainer {
   position: relative;
+  top: -100px;
 }
 
 h2 {
@@ -41,8 +42,20 @@ li {
   margin: 5px;
 }
 
-.pagination {
-  padding-left: 350px;
-  margin-top: 30px;
+:deep(.el-pagination.is-background .btn-prev),
+:deep(.el-pagination.is-background .btn-next),
+:deep(.el-pagination.is-background .el-pager li) {
+  background-color: var(--bg--pagination--);
+  color: var(--color--light--);
+}
+
+:deep(.el-pagination.is-background .el-pager li.is-active) {
+  color: var(--active--color--);
+}
+
+:deep(.el-pagination.is-background .btn-prev:hover),
+:deep(.el-pagination.is-background .btn-next:hover),
+:deep(.el-pagination.is-background .el-pager li:hover) {
+  color: var(--hover--color--);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="tvPageContainer">
+  <div class="tvLibraryPageContainer">
     <div class="header">
       <div class="tvFilter">
         <div v-for="section in filterItems" v-key="section.title">
@@ -295,8 +295,10 @@ const filterItems = reactive({
 });
 </script>
 <style scoped>
-.tvPageContainer {
+.tvLibraryPageContainer {
   position: relative;
+  left: 15px;
+  top: 20px;
 }
 
 .tvFilter {
@@ -327,7 +329,8 @@ const filterItems = reactive({
 
 .content {
   position: absolute;
-  left: -35px;
+  left: -45px;
+  width: 100%;
 }
 
 li {
@@ -335,8 +338,20 @@ li {
   margin: 5px;
 }
 
-.pagination {
-  padding-left: 350px;
-  margin-top: 30px;
+:deep(.el-pagination.is-background .btn-prev),
+:deep(.el-pagination.is-background .btn-next),
+:deep(.el-pagination.is-background .el-pager li) {
+  background-color: var(--bg--pagination--);
+  color: var(--color--light--);
+}
+
+:deep(.el-pagination.is-background .el-pager li.is-active) {
+  color: var(--active--color--);
+}
+
+:deep(.el-pagination.is-background .btn-prev:hover),
+:deep(.el-pagination.is-background .btn-next:hover),
+:deep(.el-pagination.is-background .el-pager li:hover) {
+  color: var(--hover--color--);
 }
 </style>

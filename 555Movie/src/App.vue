@@ -1,18 +1,6 @@
 <script setup lang="ts">
 import SideBar from "./components/SideBar.vue";
 import HomeHeader from "./components/HomeHeader.vue";
-import NetflixPage from "./pages/NetflixPage.vue";
-import Home from "./pages/Home.vue";
-import MoviePage from "./pages/MoviePage.vue";
-import MovieLibraryPage from "./pages/MovieLibraryPage.vue";
-import TVPage from "./pages/TVPage.vue";
-import TVLibraryPage from "./pages/TVLibraryPage.vue";
-import ComicPage from "./pages/ComicPage.vue";
-import ComicLibraryPage from "./pages/ComicLibraryPage.vue";
-import TvShowPage from "./pages/TvShowPage.vue";
-import TvShowLibraryPage from "./pages/TvShowLibraryPage.vue";
-import VideoDetailPage from "./pages/VideoDetailPage.vue";
-import VideoPlayingPage from "./pages/VideoPlayingPage.vue";
 </script>
 
 <template>
@@ -25,24 +13,8 @@ import VideoPlayingPage from "./pages/VideoPlayingPage.vue";
         <HomeHeader></HomeHeader>
       </div>
       <div class="mainContent">
-        <div class="netflix">
-          <!-- <Home></Home> -->
-          <!-- <NetflixPage></NetflixPage> -->
-
-          <!-- <MoviePage></MoviePage> -->
-          <!-- <MovieLibraryPage></MovieLibraryPage> -->
-
-          <!-- <TVPage></TVPage> -->
-          <!-- <TVLibraryPage></TVLibraryPage> -->
-
-          <!-- <ComicPage></ComicPage> -->
-          <!-- <ComicLibraryPage></ComicLibraryPage> -->
-
-          <!-- <TvShowPage></TvShowPage> -->
-          <!-- <TvShowLibraryPage></TvShowLibraryPage> -->
-
-          <!-- <VideoDetailPage></VideoDetailPage> -->
-          <VideoPlayingPage></VideoPlayingPage>
+        <div class="routerView">
+          <router-view></router-view>
         </div>
       </div>
     </div>
@@ -90,7 +62,7 @@ import VideoPlayingPage from "./pages/VideoPlayingPage.vue";
   height: 0;
 }
 
-.netflix {
+.routerView {
   margin-top: 100px;
 }
 </style>

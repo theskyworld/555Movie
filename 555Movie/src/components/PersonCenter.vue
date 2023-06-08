@@ -57,13 +57,13 @@ onMounted(() => {
 <style scoped>
 .personCenterContainer {
   position: relative;
-  top: -5px;
+  top: -2px;
   right: 30px;
 }
 .avatar img {
-  width: 45px;
-  height: 45px;
-  border-radius: 22px;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
   cursor: pointer;
 }
 

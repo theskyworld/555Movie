@@ -4,11 +4,18 @@
   --hover--color-- : #f96518;
   --actve--backgroundColor-- : #25252b;
   --color--light-- :#fff;
+  --seperate--line-- : #25252b;
+  --label--color-- : #32323c;
 }
 :root {
   background-color: #1A1C1F;
   margin: 0;
   padding: 0;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 li {

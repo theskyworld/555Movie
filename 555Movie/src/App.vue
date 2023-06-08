@@ -11,6 +11,8 @@ import ComicPage from "./pages/ComicPage.vue";
 import ComicLibraryPage from "./pages/ComicLibraryPage.vue";
 import TvShowPage from "./pages/TvShowPage.vue";
 import TvShowLibraryPage from "./pages/TvShowLibraryPage.vue";
+import VideoDetail from "./pages/VideoDetail.vue";
+import VideoPlayingPage from "./pages/VideoPlayingPage.vue";
 </script>
 
 <template>
@@ -24,7 +26,7 @@ import TvShowLibraryPage from "./pages/TvShowLibraryPage.vue";
       </div>
       <div class="mainContent">
         <div class="netflix">
-          <Home></Home>
+          <!-- <Home></Home> -->
           <!-- <NetflixPage></NetflixPage> -->
 
           <!-- <MoviePage></MoviePage> -->
@@ -38,6 +40,9 @@ import TvShowLibraryPage from "./pages/TvShowLibraryPage.vue";
 
           <!-- <TvShowPage></TvShowPage> -->
           <!-- <TvShowLibraryPage></TvShowLibraryPage> -->
+
+          <!-- <VideoDetail></VideoDetail> -->
+          <VideoPlayingPage></VideoPlayingPage>
         </div>
       </div>
     </div>
@@ -46,6 +51,7 @@ import TvShowLibraryPage from "./pages/TvShowLibraryPage.vue";
 
 <style scoped>
 .appContainer {
+  min-width: 880px;
   width: 100vw;
   display: flex;
   flex-direction: row;

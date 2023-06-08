@@ -36,6 +36,9 @@ const title = ref("偶然遇见的你");
 </script>
 
 <style scoped>
+.listCardContainer {
+  margin-right: 5px;
+}
 .mainContent {
   position: relative;
   box-sizing: content-box;

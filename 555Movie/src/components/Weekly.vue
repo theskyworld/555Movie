@@ -70,6 +70,7 @@ li span:clicked {
 }
 
 .content {
+  width: calc(100% + 50px);
   margin-left: -50px;
   margin-top: 35px;
 }

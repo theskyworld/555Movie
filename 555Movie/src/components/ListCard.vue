@@ -54,7 +54,7 @@ const title = ref("偶然遇见的你");
   left: 5px;
   top: 5px;
   background-color: #41ac52;
-  color: #fff;
+  color: var(--color--light--);
   font-size: 0.5em;
   z-index: 2;
 }
@@ -88,7 +88,7 @@ img:hover {
   right: 0;
   top: 0;
   background-color: #f96518;
-  color: #fff;
+  color: var(--color--light--);
   border-radius: 3px;
   z-index: 2;
   font-size: 0.5em;
@@ -97,9 +97,9 @@ img:hover {
   margin-top: 10px;
   width: calc(270px * 0.6);
   text-align: center;
-  color: #fff;
+  color: var(--color--light--);
 }
 .title:hover {
-  color: #f96518;
+  color: var(--hover--color--);
 }
 </style>

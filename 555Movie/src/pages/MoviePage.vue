@@ -120,7 +120,7 @@ const listTitles = ref([
 
 h2,
 h3 {
-  color: #fff;
+  color: var(--color--light--);
   cursor: pointer;
 }
 
@@ -141,7 +141,7 @@ h3:hover {
 }
 
 .content .header .more {
-  color: #fff;
+  color: var(--color--light--);
   font-size: 0.8em;
   cursor: pointer;
   position: absolute;
@@ -178,7 +178,7 @@ li {
 
 .listTitle ul li {
   display: inline-block;
-  color: #fff;
+  color: var(--color--light--);
   margin: 0 10px;
 }
 

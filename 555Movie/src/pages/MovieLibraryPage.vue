@@ -352,7 +352,7 @@ const filterItems = reactive({
 }
 
 .movieFilter {
-  color: #fff;
+  color: var(--color--light--);
 }
 
 .title {

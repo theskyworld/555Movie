@@ -37,7 +37,6 @@
 </template>
 <script setup>
 import { ref, onMounted, defineProps } from "vue";
-import("//at.alicdn.com/t/c/font_4106328_2r076lfw2r9.js");
 const watchHistoryContainerElem = ref();
 const isShowHistory = ref(false);
 const watchHistories = ref([
@@ -69,7 +68,7 @@ onMounted(() => {
 </script>
 <style scoped>
 .watchHistoryContainer {
-  color: #fff;
+  color: var(--color--light--);
   cursor: pointer;
   position: relative;
   height: auto;

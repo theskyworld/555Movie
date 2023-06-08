@@ -29,7 +29,7 @@ const cardsNumPerPage = ref(30);
 }
 
 h2 {
-  color: #fff;
+  color: var(--color--light--);
 }
 .content {
   position: absolute;

@@ -35,7 +35,6 @@
 </template>
 <script setup>
 import { ref, reactive } from "vue";
-import("http://at.alicdn.com/t/c/font_4106328_md2bg42ghgq.js");
 const sideBarMenus = ref([
   {
     key: "001",
@@ -101,7 +100,7 @@ const sideBarMenus = ref([
 </script>
 <style scoped>
 .sideBarContainer {
-  background-color: #16161a;
+  background-color: var(--bg--part1--);
   height: 98vh;
   width: 200px;
   margin-left: -7px;
@@ -143,7 +142,7 @@ const sideBarMenus = ref([
 }
 
 .menusContent li {
-  color: #e1e3e5;
+  color: var(--color--light--);
   font-size: 18px;
   margin: 15px 0;
 }
@@ -152,20 +151,20 @@ const sideBarMenus = ref([
   position: absolute;
   left: 170px;
   content: "→";
-  color: #f96518;
+  color: var(--hover--color--);
   animation: arrowLeftToRight 0.1s linear;
 }
 
 .menusContent li:hover span {
-  color: #f96518;
+  color: var(--hover--color--);
 }
 .menusContent li:hover .icon {
-  fill: #f96518;
+  fill: var(--hover--color--);
 }
 
 .menusContent li a {
   text-decoration: none;
-  color: #e1e3e5;
+  color: var(--color--light--);
 }
 
 .menusContent li span {

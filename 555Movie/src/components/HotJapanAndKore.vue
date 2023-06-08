@@ -34,7 +34,7 @@ const cardsNum = ref(6);
 }
 
 .header h2 {
-  color: #fff;
+  color: var(--color--light--);
 }
 
 .more {
@@ -43,7 +43,7 @@ const cardsNum = ref(6);
   right: 50px;
   top: 10px;
   background-color: var(--bg--part1--);
-  color: #fff;
+  color: var(--color--light--);
   cursor: pointer;
   font-size: 0.8em;
 }
@@ -54,7 +54,7 @@ const cardsNum = ref(6);
 
 li {
   display: inline-block;
-  color: #fff;
+  color: var(--color--light--);
   margin: 0 10px;
 }
 

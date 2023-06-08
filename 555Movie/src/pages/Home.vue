@@ -2,7 +2,7 @@
   <div id="homeContainer">
     <div class="homeContent">
       <div class="slideShow">
-        <!-- <SlideShow></SlideShow> -->
+        <SlideShow></SlideShow>
       </div>
       <div class="weekly">
         <Weekly></Weekly>
@@ -55,7 +55,7 @@ import HotTvShows from "../components/HotTvShows.vue";
 
 <style scoped>
 .weekly {
-  margin-top: 430px;
+  margin-top: 10px;
 }
 
 .bestInMonth {

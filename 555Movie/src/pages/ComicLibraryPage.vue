@@ -285,7 +285,7 @@ const filterItems = reactive({
 }
 
 .comicFilter {
-  color: #fff;
+  color: var(--color--light--);
 }
 
 .title {

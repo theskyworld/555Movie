@@ -31,12 +31,12 @@ const cardsNum = ref(6);
 }
 
 .header h2 {
-  color: #fff;
+  color: var(--color--light--);
 }
 
 li {
   display: inline-block;
-  color: #fff;
+  color:  var(--color--light--);
   margin: 0 10px;
 }
 

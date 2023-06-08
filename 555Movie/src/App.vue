@@ -24,7 +24,7 @@ import TvShowLibraryPage from "./pages/TvShowLibraryPage.vue";
       </div>
       <div class="mainContent">
         <div class="netflix">
-          <!-- <Home></Home> -->
+          <Home></Home>
           <!-- <NetflixPage></NetflixPage> -->
 
           <!-- <MoviePage></MoviePage> -->
@@ -37,7 +37,7 @@ import TvShowLibraryPage from "./pages/TvShowLibraryPage.vue";
           <!-- <ComicLibraryPage></ComicLibraryPage> -->
 
           <!-- <TvShowPage></TvShowPage> -->
-          <TvShowLibraryPage></TvShowLibraryPage>
+          <!-- <TvShowLibraryPage></TvShowLibraryPage> -->
         </div>
       </div>
     </div>

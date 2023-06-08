@@ -263,7 +263,7 @@ const filterItems = reactive({
 }
 
 .tvShowFilter {
-  color: #fff;
+  color: var(--color--light--);
 }
 
 .title {

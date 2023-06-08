@@ -300,7 +300,7 @@ const filterItems = reactive({
 }
 
 .tvFilter {
-  color: #fff;
+  color: var(--color--light--);
 }
 
 .title {

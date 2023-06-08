@@ -39,7 +39,7 @@ const weeks = ref(["周一", "周二", "周三", "周四", "周五", "周六", "
 }
 
 .header h2 {
-  color: #fff;
+  color: var(--color--light--);
 }
 
 .weeks {
@@ -56,7 +56,7 @@ const weeks = ref(["周一", "周二", "周三", "周四", "周五", "周六", "
 
 li {
   display: inline-block;
-  color: #fff;
+  color: var(--color--light--);
   margin: 0 10px;
 }
 

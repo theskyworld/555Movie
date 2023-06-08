@@ -12,7 +12,6 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import("//at.alicdn.com/t/c/font_4106328_zd1lmsps0lk.js");
 const values = ["1", "2", "3", "4"];
 const placeholderValue = ref("偶然遇见的你");
 </script>
@@ -25,7 +24,7 @@ input {
   background-color: #25252b;
   padding: 10px;
   border: none;
-  color: #fff;
+  color: var(--color--light--);
 }
 
 .inputWrapper {
@@ -50,6 +49,6 @@ input:focus {
 }
 
 .icon {
-  fill: #fff;
+  fill: var(--color--light--);
 }
 </style>

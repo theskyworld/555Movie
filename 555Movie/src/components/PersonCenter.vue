@@ -40,7 +40,6 @@
   </div>
 </template>
 <script setup>
-import("//at.alicdn.com/t/c/font_4106328_4i3rbnyb9f2.js");
 import { ref, onMounted } from "vue";
 
 const isShowInfo = ref(false);
@@ -75,7 +74,7 @@ onMounted(() => {
   background-color: var(--bg--part1--);
   position: absolute;
   left: -25px;
-  color: #fff;
+  color: var(--color--light--);
   padding: 15px;
   padding-top: 0;
   font-size: 0.8em;

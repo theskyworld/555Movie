@@ -40,11 +40,14 @@
   </div>
 </template>
 <script setup>
+import useMainStore from "../store";
+import { storeToRefs } from "pinia";
 import { ref, onMounted } from "vue";
 
-const isShowInfo = ref(false);
-const avatarElem = ref();
+const mainStore = useMainStore();
+const { isShowInfo } = storeToRefs(mainStore);
 
+const avatarElem  = ref();
 onMounted(() => {
   avatarElem.value.addEventListener("mouseover", () => {
     isShowInfo.value = true;

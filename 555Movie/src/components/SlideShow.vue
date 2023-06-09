@@ -60,11 +60,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-import { Navigation, Pagination, Autoplay, EffectCoverflow } from "swiper";
-
+import useMainStore from "../store";
+import { storeToRefs } from "pinia";
 import { ref, onMounted, reactive } from "vue";
 
-const modules = ref([Navigation, Pagination, /*Autoplay,*/ EffectCoverflow]);
+const mainStore = useMainStore();
+const { modules } = storeToRefs(mainStore);
 </script>
 <style scoped>
 .slideShowContainer {

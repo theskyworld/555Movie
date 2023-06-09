@@ -21,7 +21,11 @@
 import { ref } from "vue";
 import ListCard from "../components/ListCard.vue";
 
-const cardsNum = ref(6);
+import useMainStore from "../store";
+import { storeToRefs } from "pinia";
+
+const mainStore = useMainStore();
+const { cardsNum } = storeToRefs(mainStore);
 </script>
 <style scoped>
 .netflixWrapper {

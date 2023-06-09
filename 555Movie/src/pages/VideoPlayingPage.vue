@@ -65,20 +65,11 @@
   </div>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import useMainStore from '../store';
+import { storeToRefs } from 'pinia';
 import ListCard from "../components/ListCard.vue";
 
-const videoInfos = reactive({
-  name: "09届探员",
-  labels: {
-    year: "2023",
-    area: "美国",
-    // story : ['剧情', "惊悚", "科幻"]
-  },
-  numOfEpisode: 6,
-});
-
-const numOfListCards = ref(12);
+const { videoInfos, numOfListCards } = storeToRefs(useMainStore());
 </script>
 <style scoped>
 .videoPlayingPageContainer {

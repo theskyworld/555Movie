@@ -37,25 +37,11 @@
 </template>
 <script setup>
 import { ref, onMounted, defineProps } from "vue";
+import useMainStore from "../store";
+import { storeToRefs } from 'pinia';
 const watchHistoryContainerElem = ref();
-const isShowHistory = ref(false);
-const watchHistories = ref([
-  {
-    title: "偶然遇见的你",
-  },
-  {
-    title: "偶然遇见的你",
-  },
-  {
-    title: "偶然遇见的你",
-  },
-  {
-    title: "偶然遇见的你",
-  },
-  {
-    title: "偶然遇见的你",
-  },
-]);
+
+const { isShowHistory, watchHistories } = storeToRefs(useMainStore());
 
 onMounted(() => {
   watchHistoryContainerElem.value.addEventListener("mouseover", () => {

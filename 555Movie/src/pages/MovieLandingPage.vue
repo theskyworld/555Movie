@@ -63,31 +63,14 @@
 </template>
 <script setup>
 import ListCard from "../components/ListCard.vue";
-
-import { ref, reactive } from "vue";
 import { ElPagination } from "element-plus";
+import useMainStore from "../store";
+import { storeToRefs } from "pinia";
 
-const cardsNum = reactive({
-  top10: 10,
-  newMovie: 12,
-  topList: 12,
-  latestUpdate: 12,
-});
-
-const listTitles = ref([
-  {
-    key: "1",
-    title: "日榜",
-  },
-  {
-    key: "2",
-    title: "周榜",
-  },
-  {
-    key: "3",
-    title: "月榜",
-  },
-]);
+const {
+  movieLandingPageCardsNum: cardsNum,
+  movieLandingPageListTitles: listTitles,
+} = storeToRefs(useMainStore());
 </script>
 <style scoped>
 .content {

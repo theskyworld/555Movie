@@ -21,8 +21,12 @@
 import { ref } from "vue";
 import ListCard from "../components/ListCard.vue";
 
-const cardsNum = ref(6);
-const weeks = ref(["周一", "周二", "周三", "周四", "周五", "周六", "周日"]);
+import useMainStore from "../store";
+import { storeToRefs } from "pinia";
+
+const mainStore = useMainStore();
+const { cardsNum } = storeToRefs(mainStore);
+
 </script>
 <style scoped>
 .bestInWeekWrapper {

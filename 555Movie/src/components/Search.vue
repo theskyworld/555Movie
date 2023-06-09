@@ -11,9 +11,10 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-const values = ["1", "2", "3", "4"];
-const placeholderValue = ref("偶然遇见的你");
+import useMainStore from "../store";
+import { storeToRefs } from "pinia";
+
+const { placeholderValue } = storeToRefs(useMainStore());
 </script>
 <style scoped>
 input {

@@ -19,9 +19,11 @@
 </template>
 <script setup>
 import ListCard from "../components/ListCard.vue";
-import { ref } from "vue";
+import useMainStore from "../store";
+import { storeToRefs } from "pinia";
 import { ElPagination } from "element-plus";
-const cardsNumPerPage = ref(30);
+
+const { cardsNumPerPage } = storeToRefs(useMainStore());
 </script>
 <style scoped>
 .netflixPageContainer {

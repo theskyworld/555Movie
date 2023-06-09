@@ -17,8 +17,12 @@
 <script setup>
 import { ref } from "vue";
 import ListCard from "../components/ListCard.vue";
+import useMainStore from "../store";
+import { storeToRefs } from "pinia";
 
-const cardsNum = ref(6);
+const mainStore = useMainStore();
+const { cardsNum } = storeToRefs(mainStore);
+
 </script>
 <style scoped>
 .bestInMonthWrapper {
@@ -36,7 +40,7 @@ const cardsNum = ref(6);
 
 li {
   display: inline-block;
-  color:  var(--color--light--);
+  color: var(--color--light--);
   margin: 0 10px;
 }
 

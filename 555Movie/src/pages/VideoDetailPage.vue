@@ -61,22 +61,25 @@
 </template>
 <script setup>
 import { computed } from "vue";
-import useMainStore from '../store';
-import { storeToRefs } from 'pinia';
+import useMainStore from "../store";
+import { storeToRefs } from "pinia";
 import ListCard from "../components/ListCard.vue";
 
-const { ENToCNMapHelper,
+const {
+  ENToCNMapHelper,
   latestEpisode,
-  videoDetailPageDoubanScore : doubanScore,
+  videoDetailPageDoubanScore: doubanScore,
   videoInfo,
   numOfEpisodesRef,
-  numOfRelevantRecommend } = storeToRefs(useMainStore()); 
+  numOfRelevantRecommend,
+} = storeToRefs(useMainStore());
 </script>
 <style scoped>
 .videoDetailContainer {
   width: 100%;
   color: var(--color--light--);
   position: relative;
+  top: -100px;
 }
 
 .videoName {

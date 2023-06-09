@@ -2,9 +2,7 @@
   <div class="videoPlayingPageContainer">
     <div class="main">
       <div class="video">
-        <video width="100%" height="100%" controls>
-          <source src="" />
-        </video>
+        <video ref="videoElem" class="videoElem" controls></video>
       </div>
       <div class="videoInfo">
         <div class="mainInfo">
@@ -65,15 +63,25 @@
   </div>
 </template>
 <script setup>
-import useMainStore from '../store';
-import { storeToRefs } from 'pinia';
+import useMainStore from "../store";
+import { storeToRefs } from "pinia";
 import ListCard from "../components/ListCard.vue";
-
+import { onMounted, ref } from "vue";
+import { playM3u8 } from "../../m3u8Parser";
 const { videoInfos, numOfListCards } = storeToRefs(useMainStore());
+
+const videoElem = ref();
+const m3u8Url = "https://v4.cdtlas.com/20220602/Y2v7PUvS/index.m3u8";
+
+onMounted(() => {
+  // playM3u8(m3u8Url, videoElem.value);
+});
 </script>
 <style scoped>
 .videoPlayingPageContainer {
   color: var(--color--light--);
+  position: relative;
+  top: -120px;
 }
 .main {
   display: flex;
@@ -84,6 +92,11 @@ const { videoInfos, numOfListCards } = storeToRefs(useMainStore());
   height: 460px;
   /* border: solid 1px red; */
   z-index: 2;
+}
+
+.videoElem {
+  width: 100%;
+  height: 100%;
 }
 
 .videoInfo {
@@ -101,10 +114,10 @@ const { videoInfos, numOfListCards } = storeToRefs(useMainStore());
   content: "";
   display: inline-block;
   position: relative;
-  top: 3px;
+  top: 5px;
   right: 12px;
-  width: 10px;
-  height: 20px;
+  width: 8px;
+  height: 26px;
   border-radius: 3px;
   background-color: var(--hover--color--);
 }

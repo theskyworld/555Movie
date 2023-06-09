@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SideBar from "./components/SideBar.vue";
 import HomeHeader from "./components/HomeHeader.vue";
+import VideoDetailPage from "./pages/VideoDetailPage.vue";
 </script>
 
 <template>
@@ -15,6 +16,7 @@ import HomeHeader from "./components/HomeHeader.vue";
       <div class="mainContent">
         <div class="routerView">
           <router-view></router-view>
+          <!-- <VideoDetailPage></VideoDetailPage> -->
         </div>
       </div>
     </div>

@@ -25,8 +25,7 @@ import useMainStore from "../store";
 import { storeToRefs } from "pinia";
 
 const mainStore = useMainStore();
-const { cardsNum } = storeToRefs(mainStore);
-
+const { weeklyCardsNum: cardsNum } = storeToRefs(mainStore);
 </script>
 <style scoped>
 .bestInWeekWrapper {
@@ -39,7 +38,7 @@ const { cardsNum } = storeToRefs(mainStore);
 }
 
 .header h2 {
-  color:  var(--color--light--);
+  color: var(--color--light--);
 }
 
 .more {
@@ -48,7 +47,7 @@ const { cardsNum } = storeToRefs(mainStore);
   right: 50px;
   top: 10px;
   background-color: var(--bg--part1--);
-  color:  var(--color--light--);
+  color: var(--color--light--);
   cursor: pointer;
   font-size: 0.8em;
 }
@@ -59,7 +58,7 @@ const { cardsNum } = storeToRefs(mainStore);
 
 li {
   display: inline-block;
-  color:  var(--color--light--);
+  color: var(--color--light--);
   margin: 0 10px;
 }
 

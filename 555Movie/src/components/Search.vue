@@ -1,8 +1,8 @@
 <template>
   <div id="searchContainer">
     <div class="inputWrapper">
-      <input type="text" :placeholder="placeholderValue" />
-      <div class="inputIcon">
+      <input ref="inputElem" type="text" :placeholder="placeholderValue" />
+      <div class="inputIcon" ref="inputIconElem">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-sousuo"></use>
         </svg>
@@ -13,7 +13,36 @@
 <script setup>
 import useMainStore from "../store";
 import { storeToRefs } from "pinia";
+import { ref, onMounted } from "vue";
+import axios from "axios";
 
+const inputElem = ref();
+const inputIconElem = ref();
+let wdv = ref("");
+onMounted(() => {
+  inputIconElem.value.addEventListener("click", () => {
+    wdv.value = inputElem.value.value;
+
+    axios({
+      // url: "apis.php",
+      method: "get",
+      baseURL: "/apis.php",
+      params: {
+        out: "jsonp",
+        wd: wdv.value,
+        cb: "jQuery182023040031454501975_1686140616505",
+        _: "1686141636030",
+      },
+      timeout: 5000,
+    })
+      .then((res) => {
+        console.log(JSON.parse(res));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+});
 const { placeholderValue } = storeToRefs(useMainStore());
 </script>
 <style scoped>

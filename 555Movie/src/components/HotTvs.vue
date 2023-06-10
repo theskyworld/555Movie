@@ -25,7 +25,7 @@ import useMainStore from "../store";
 import { storeToRefs } from "pinia";
 
 const mainStore = useMainStore();
-const { cardsNum } = storeToRefs(mainStore);
+const { weeklyCardsNum: cardsNum } = storeToRefs(mainStore);
 </script>
 <style scoped>
 .hotTvsWrapper {

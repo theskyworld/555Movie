@@ -9,13 +9,13 @@
       </div>
       <div class="poster">
         <div class="imgContainer">
-          <img :src="imgProps.src" :alt="imgProps.alt" />
+          <img :src="props.pic" :alt="props.title" />
         </div>
       </div>
     </div>
     <div class="info">
       <div class="title">
-        <span>{{ title }}</span>
+        <span>{{ props.title }}</span>
       </div>
     </div>
   </div>
@@ -24,10 +24,14 @@
 <script setup>
 import useMainStore from "../store";
 import { storeToRefs } from 'pinia';
+import { defineProps } from 'vue';
 
+
+const props = defineProps(['url', 'pic', 'title']);
+// console.log("🚀 ~ file: ListCard.vue:31 ~ props:", props)
 const mainStore = useMainStore();
 
-const { imgProps, doubanScore, title } = storeToRefs(mainStore);
+const { doubanScore } = storeToRefs(mainStore);
 </script>
 
 <style scoped>

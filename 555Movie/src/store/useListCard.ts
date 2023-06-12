@@ -2,14 +2,14 @@ import { defineStore } from "pinia";
 import { ref, reactive } from "vue";
 const useListCardStore = defineStore("listCardStore", {
   state: () => {
+    const title = ref('');
     const imgProps = reactive({
       dataOriginal: "",
-      alt: "",
-      src: "https://t1.szrtcpa.com/upload/vod/20220314-24/bca38c18f708aef70cac8b65a0fd2849.jpg",
+      alt: title.value,
+      src: "",
     });
     const doubanScore = ref(7.5);
 
-    const title = ref("偶然遇见的你");
     return {
       imgProps,
       doubanScore,
@@ -17,7 +17,16 @@ const useListCardStore = defineStore("listCardStore", {
     };
   },
 
-  actions: {},
+  actions: {
+    setlistCardTitle(val) {
+      this.title = val;
+    },
+    setlistCardImgProps(props = { dataOriginal : '', src : ''}) {
+      const { dataOriginal, src } = props;
+      this.imgProps.dataOriginal = dataOriginal;
+      this.imgProps.src = src;
+    },
+  },
 });
 
 export default useListCardStore;

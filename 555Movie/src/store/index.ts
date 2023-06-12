@@ -17,6 +17,7 @@ import useTVShowLandingPageStore from "./useTVShowLandingPage";
 import useTvShowLibraryPageStore from "./useTvShowLibraryPage";
 import useVideoDetailPageStore from "./useVideoDetailPage";
 import useVideoPlayingPageStore from "./useVideoPlayingPage";
+import useSearchResultStore from "./useSearchResult";
 
 const pinia = createPinia();
 const weeklyStore = useWeeklyStore(pinia);
@@ -36,6 +37,7 @@ const tvShowLandingPageStore = useTVShowLandingPageStore(pinia);
 const tvShowLibraryPageStore = useTvShowLibraryPageStore(pinia);
 const videoDetailPageStore = useVideoDetailPageStore(pinia);
 const videoPlayingPageStore = useVideoPlayingPageStore(pinia);
+const searchResultStore = useSearchResultStore(pinia);
 
 const useMainStore = defineStore("mainStore", {
   state: () => {
@@ -43,7 +45,7 @@ const useMainStore = defineStore("mainStore", {
     const { modules } = storeToRefs(slideShowStore);
     const { imgProps, doubanScore, title } = storeToRefs(listCardStore);
     const { isShowInfo } = storeToRefs(personCenterStore);
-    const { placeholderValue } = storeToRefs(searchStore);
+    const { placeholderValue, searchValue } = storeToRefs(searchStore);
     const { sideBarMenus } = storeToRefs(slideBarStore);
     const { isShowHistory, watchHistories } = storeToRefs(watchHistoryStore);
     const { comicLandingPageCardsNum, comicLandingPageListTitles } =
@@ -71,6 +73,7 @@ const useMainStore = defineStore("mainStore", {
       numOfRelevantRecommend,
     } = storeToRefs(videoDetailPageStore);
     const { videoInfos, numOfListCards } = storeToRefs(videoPlayingPageStore);
+    const { searchRes } = storeToRefs(searchResultStore);
     return {
       weeklyCardsNum,
       weeks,
@@ -80,6 +83,7 @@ const useMainStore = defineStore("mainStore", {
       title,
       isShowInfo,
       placeholderValue,
+      searchValue,
       sideBarMenus,
       isShowHistory,
       watchHistories,
@@ -105,10 +109,24 @@ const useMainStore = defineStore("mainStore", {
       numOfRelevantRecommend,
       videoInfos,
       numOfListCards,
+      searchRes,
     };
   },
 
-  actions: {},
+  actions: {
+    setSearchValue(val) {
+      searchStore.setSearchValue(val);
+    },
+    setSearchRes(urls, pics, titles) {
+      searchResultStore.setSearchRes(urls, pics, titles);
+    },
+    setlistCardTitle(val) {
+      listCardStore.setlistCardTitle(val);
+    },
+    setlistCardImgProps(props) {
+      listCardStore.setlistCardImgProps(props);
+    },
+  },
 });
 
 export default useMainStore;

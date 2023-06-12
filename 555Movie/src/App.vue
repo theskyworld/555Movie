@@ -2,6 +2,7 @@
 import SideBar from "./components/SideBar.vue";
 import HomeHeader from "./components/HomeHeader.vue";
 import VideoDetailPage from "./pages/VideoDetailPage.vue";
+import SearchResultPage from "./pages/SearchResultPage.vue";
 </script>
 
 <template>
@@ -17,6 +18,7 @@ import VideoDetailPage from "./pages/VideoDetailPage.vue";
         <div class="routerView">
           <router-view></router-view>
           <!-- <VideoDetailPage></VideoDetailPage> -->
+          <!-- <SearchResultPage></SearchResultPage> -->
         </div>
       </div>
     </div>

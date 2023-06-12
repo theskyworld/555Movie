@@ -15,35 +15,93 @@ import useMainStore from "../store";
 import { storeToRefs } from "pinia";
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import router from "../router";
+import Service from "../web/axios/axios.ts";
 
-const inputElem = ref();
+const mainStore = useMainStore();
+const { placeholderValue } = storeToRefs(mainStore);
+const { setSearchValue, setSearchRes } = mainStore;
 const inputIconElem = ref();
+const inputElem = ref();
 let wdv = ref("");
-onMounted(() => {
-  inputIconElem.value.addEventListener("click", () => {
-    wdv.value = inputElem.value.value;
 
-    axios({
-      // url: "apis.php",
-      method: "get",
-      baseURL: "/apis.php",
-      params: {
-        out: "jsonp",
-        wd: wdv.value,
-        cb: "jQuery182023040031454501975_1686140616505",
-        _: "1686141636030",
-      },
-      timeout: 5000,
+// 从所有获取到的infos来获取所有唯一的info，避免重复请求
+function getUniqueInfos(infos) {
+  const copyOfInfos = infos ? infos : [];
+  const titles = new Set();
+  const res = [];
+  copyOfInfos.forEach((info) => {
+    titles.add(info.title);
+  });
+
+  const titlesArr = [...titles];
+  for (let i = 0; i < titlesArr.length; i++) {
+    copyOfInfos.forEach((info, index) => {
+      if (info && info.title === titlesArr[i]) {
+        // 删除已获取到的唯一的info，且不影响源数组中值的索引
+        titlesArr[i] = null;
+        copyOfInfos[index] = null;
+        res.push(info);
+      }
+    });
+  }
+
+  return res;
+}
+onMounted(() => {
+  const searchCallBack = () => {
+    const searchValue = inputElem.value.value;
+    wdv.value = searchValue;
+    setSearchValue(searchValue);
+    inputElem.value.value = "";
+
+    // 发起初始的axios请求
+    console.log("axios");
+    new Service({
+      wd: searchValue,
     })
       .then((res) => {
-        console.log(JSON.parse(res));
+        const infos = res.info;
+        const uniqueInfos = getUniqueInfos(infos);
+        // 分别存储最终获得的m3u8文件、图片地址和标题
+        const urlsRes = ref([]);
+        const picsRes = ref([]);
+        const titlesRes = ref([]);
+
+        // 根据所有唯一的info来获取当前info对应的url和pic地址
+        uniqueInfos.forEach((info) => {
+          const { id, flag } = info;
+          new Service({
+            id,
+            flag,
+          }).then((res) => {
+            const { url, pic, title } = res;
+            urlsRes.value.push(url);
+            picsRes.value.push(pic);
+            titlesRes.value.push(title);
+          });
+        });
+
+        // 存储获取到的结果值
+        setSearchRes(urlsRes, picsRes, titlesRes);
+        // 跳转到结果页面
+        router.push({
+          name: "searchResult",
+        });
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+  // 点击搜索框进行搜索
+  inputIconElem.value.addEventListener("click", searchCallBack);
+  // 按回车进行搜索
+  inputElem.value.addEventListener("keyup", (e) => {
+    if (e.code === "Enter") {
+      searchCallBack();
+    }
   });
 });
-const { placeholderValue } = storeToRefs(useMainStore());
 </script>
 <style scoped>
 input {

@@ -1,4 +1,7 @@
-// import axios, { AxiosRequestConfig, AxiosPromise, Axios } from "axios";
+import axios, { AxiosRequestConfig, AxiosPromise, Axios } from "axios";
+import { storeToRefs } from "pinia";
+import useMainStore from "../../store"
+
 // import { ElLoading, LoadingOptions } from "element-plus";
 // import { baseUrl1 } from "../../utils/urls";
 
@@ -96,7 +99,7 @@
 //   }
 // }
 
-// // 储存每个请求的唯一cancel回调, 以此为标识
+// 储存每个请求的唯一cancel回调, 以此为标识
 // function addPending(config: AxiosRequestConfig) {
 //   const pendingKey = getPendingKey(config);
 //   config.cancelToken =
@@ -136,3 +139,67 @@
 // }
 
 // export default createAxios;
+
+
+
+
+function getRandomNum(length) {
+  let res = "";
+  for (let i = 0; i < length; i++) {
+    res += Math.ceil(Math.random() * 10);
+  }
+  return res;
+}
+
+function Service(params = {}) {
+    const service = axios.create({
+        baseURL: "/apis.php",
+        method : 'get',
+      timeout: 1000 * 10,
+      params: {
+        out: "jsonp",
+        cb: "jQuery" + getRandomNum(21) + "_" + getRandomNum(13),
+        _: getRandomNum(13),
+        wd: params.wd || null,
+          flag: params.flag || null,
+        id : params.id || null,
+      },
+    });
+
+    // 请求拦截器
+    service.interceptors.request.use(
+      (config) => {
+        return config;
+      },
+      (error) => {}
+    );
+
+    //  响应拦截器
+    service.interceptors.response.use((res) => {
+      const startIndex = res.data.indexOf("{");
+      const endIndex = res.data.lastIndexOf("}");
+      return JSON.parse(res.data.substring(startIndex, endIndex + 1));
+    });
+
+    return service.get('/apis.php');
+}
+
+
+export default Service;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

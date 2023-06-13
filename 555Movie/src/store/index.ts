@@ -73,7 +73,8 @@ const useMainStore = defineStore("mainStore", {
       numOfRelevantRecommend,
     } = storeToRefs(videoDetailPageStore);
     const { videoInfos, numOfListCards } = storeToRefs(videoPlayingPageStore);
-    const { searchRes } = storeToRefs(searchResultStore);
+    const { searchRes, searchResultPerPageNum, curPageStartIndex } =
+      storeToRefs(searchResultStore);
     return {
       weeklyCardsNum,
       weeks,
@@ -110,6 +111,8 @@ const useMainStore = defineStore("mainStore", {
       videoInfos,
       numOfListCards,
       searchRes,
+      searchResultPerPageNum,
+      curPageStartIndex,
     };
   },
 
@@ -119,6 +122,9 @@ const useMainStore = defineStore("mainStore", {
     },
     setSearchRes(urls, pics, titles) {
       searchResultStore.setSearchRes(urls, pics, titles);
+    },
+    setCurPageStartIndex(isPrev) {
+      searchResultStore.setCurPageStartIndex(isPrev);
     },
     setlistCardTitle(val) {
       listCardStore.setlistCardTitle(val);

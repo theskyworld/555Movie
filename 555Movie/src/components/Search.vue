@@ -73,8 +73,9 @@ onMounted(() => {
       const titlesRes = ref([]);
 
       // 根据所有唯一的info来获取当前info对应的url和pic地址
-      uniqueInfos.forEach(async (info) => {
-        const { id, flag } = info;
+      uniqueInfos.forEach(async (info, index) => {
+        if (index < 15) {
+          const { id, flag } = info;
         const res = await new Service({
           id,
           flag,
@@ -84,6 +85,7 @@ onMounted(() => {
         urlsRes.value.push(url);
         picsRes.value.push(pic);
         titlesRes.value.push(title);
+        }
       });
 
       // 存储获取到的结果值

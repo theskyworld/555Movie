@@ -11,17 +11,24 @@
     </div>
     <div class="listCard">
       <ul>
-        <li v-for="i in titles.length">
+        <li v-for="i in searchResultPerPageNum">
           <ListCard
-            :url="urls[i - 1]"
-            :pic="pics[i - 1]"
-            :title="titles[i - 1]"
+            :url="urls[i - 1 + curPageStartIndex]"
+            :pic="pics[i - 1 + curPageStartIndex]"
+            :title="titles[i - 1 + curPageStartIndex]"
           ></ListCard>
         </li>
       </ul>
     </div>
     <div class="pagination">
-      <el-pagination background layout="prev, pager, next" :total="1000" />
+      <el-pagination
+        background
+        @prev-click="toPrevPage()"
+        @next-click="toNextPage()"
+        @current-change="getCurrentPage"
+        layout="prev, pager, next"
+        :total="titles.length"
+      />
     </div>
   </div>
 </template>
@@ -33,10 +40,31 @@ import { useRouter, useRoute } from "vue-router";
 import useMainStore from "../store";
 import { storeToRefs } from "pinia";
 
-const searchResultNum = ref(10);
 const mainStore = useMainStore();
-const { searchValue, searchRes } = storeToRefs(mainStore);
+const { searchValue, searchRes, curPageStartIndex } = storeToRefs(mainStore);
+let { searchResultPerPageNum } = storeToRefs(mainStore);
+const { setCurPageStartIndex } = mainStore;
 const { urls, pics, titles } = searchRes.value;
+const pageCounts = Math.ceil(titles.length / searchResultPerPageNum.value);
+const searchResultLastPageNum = ref(
+  titles.length % searchResultPerPageNum.value
+);
+
+function toPrevPage() {
+  searchResultPerPageNum.value = 15;
+  setCurPageStartIndex(true);
+}
+function toNextPage() {
+  setCurPageStartIndex();
+}
+function getCurrentPage(val) {
+  console.log(val, pageCounts);
+  if (val === pageCounts) {
+    console.log("x", searchResultLastPageNum.value);
+    searchResultPerPageNum.value = searchResultLastPageNum.value;
+  }
+}
+
 // console.log("🚀 ~ file: SearchResultPage.vue:35 ~ searchRes:", searchRes.value);
 </script>
 <style scoped>

@@ -10,6 +10,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import useMainStore from "../store";
 import { storeToRefs } from "pinia";
@@ -48,51 +49,59 @@ function getUniqueInfos(infos) {
 
   return res;
 }
+
 onMounted(() => {
-  const searchCallBack = () => {
+  const searchCallBack = async () => {
     const searchValue = inputElem.value.value;
     wdv.value = searchValue;
     setSearchValue(searchValue);
     inputElem.value.value = "";
 
-    // 发起初始的axios请求
-    console.log("axios");
-    new Service({
-      wd: searchValue,
-    })
-      .then((res) => {
-        const infos = res.info;
-        const uniqueInfos = getUniqueInfos(infos);
-        // 分别存储最终获得的m3u8文件、图片地址和标题
-        const urlsRes = ref([]);
-        const picsRes = ref([]);
-        const titlesRes = ref([]);
 
-        // 根据所有唯一的info来获取当前info对应的url和pic地址
-        uniqueInfos.forEach((info) => {
-          const { id, flag } = info;
-          new Service({
-            id,
-            flag,
-          }).then((res) => {
-            const { url, pic, title } = res;
-            urlsRes.value.push(url);
-            picsRes.value.push(pic);
-            titlesRes.value.push(title);
-          });
-        });
-
-        // 存储获取到的结果值
-        setSearchRes(urlsRes, picsRes, titlesRes);
-        // 跳转到结果页面
-        router.push({
-          name: "searchResult",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      // 发起初始的axios请求
+      console.log("axios");
+      const initalRes = await new Service({
+        wd: searchValue
       });
+
+      const infos = initalRes.info;
+      const uniqueInfos = getUniqueInfos(infos);
+      // 分别存储最终获得的m3u8文件、图片地址和标题
+      const urlsRes = ref([]);
+      const picsRes = ref([]);
+      const titlesRes = ref([]);
+
+      // 根据所有唯一的info来获取当前info对应的url和pic地址
+      uniqueInfos.forEach(async (info) => {
+        const { id, flag } = info;
+        const res = await new Service({
+          id,
+          flag,
+        });
+
+        const { url, pic, title } = res;
+        urlsRes.value.push(url);
+        picsRes.value.push(pic);
+        titlesRes.value.push(title);
+      });
+
+      // 存储获取到的结果值
+      setSearchRes(urlsRes, picsRes, titlesRes);
+      // 跳转到结果页面
+      router.push({
+        name: "searchResult",
+      });
+
+    } catch (err) {
+        console.log(err);
+    };
+
+  
   };
+
+
+
   // 点击搜索框进行搜索
   inputIconElem.value.addEventListener("click", searchCallBack);
   // 按回车进行搜索
@@ -103,6 +112,7 @@ onMounted(() => {
   });
 });
 </script>
+
 <style scoped>
 input {
   box-sizing: border-box;

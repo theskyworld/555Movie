@@ -68,13 +68,17 @@ import { storeToRefs } from "pinia";
 import ListCard from "../components/ListCard.vue";
 import { onMounted, ref } from "vue";
 import { playM3u8 } from "../../m3u8Parser";
-const { videoInfos, numOfListCards } = storeToRefs(useMainStore());
-
+import { useRouter } from "vue-router";
+const { videoInfos, numOfListCards, searchRes } = storeToRefs(useMainStore());
+const { urls } = searchRes.value;
 const videoElem = ref();
-const m3u8Url = "https://v4.cdtlas.com/20220602/Y2v7PUvS/index.m3u8";
+const route = useRouter().currentRoute.value;
+// console.log(route.params);
+const m3u8Url = urls[route.params.index];
+// console.log(m3u8Url);
 
 onMounted(() => {
-  // playM3u8(m3u8Url, videoElem.value);
+  playM3u8(m3u8Url, videoElem.value);
 });
 </script>
 <style scoped>

@@ -29,7 +29,7 @@ class AxiosService {
 
   constructor() {
     this._baseURL = "/apis.php";
-    this._timeout = 1000 * 10;
+    this._timeout = 1000 * 20;
     this._service = null;
   }
 
@@ -88,8 +88,8 @@ class AxiosService {
       return JSON.parse(res.data.substring(startIndex, endIndex + 1));
     };
     const errorHandle = (err) => {
-      if (err.response.status === 401) {
-      }
+      // if (err.response.status === 401) {
+      // }
 
       return Promise.reject(err);
     }

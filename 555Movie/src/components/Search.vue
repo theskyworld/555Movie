@@ -19,16 +19,16 @@ import axios from "axios";
 import router from "../router";
 
 const mainStore = useMainStore();
-const { placeholderValue } = storeToRefs(mainStore);
+const { placeholderValue, urlsRes,
+  picsRes,
+  titlesRes,
+  perPageNum, } = storeToRefs(mainStore);
 const {
   setSearchValue,
   setSearchRes,
   getInfos,
   getDetails,
   getUniqueInfos,
-  urlsRes,
-  picsRes,
-  titlesRes,
 } = mainStore;
 const inputIconElem = ref();
 const inputElem = ref();
@@ -58,7 +58,8 @@ onMounted(() => {
       // 根据所有唯一的info来获取当前info对应的url和pic地址
       // 请求第一页中的数据
       uniqueInfos.forEach(async (info, index) => {
-        if (index < 15) {
+        console.log(perPageNum.value)
+        if (index < perPageNum.value) {
           const res = await getDetails(info);
 
           const { url, pic, title } = res;

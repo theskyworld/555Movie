@@ -81,7 +81,7 @@ const useMainStore = defineStore("mainStore", {
       numOfRelevantRecommend,
     } = storeToRefs(videoDetailPageStore);
     const { videoInfos, numOfListCards } = storeToRefs(videoPlayingPageStore);
-    const { searchRes, searchResultPerPageNum, curPageStartIndex } =
+    const { searchRes, perPageNum, curPageStartIndex } =
       storeToRefs(searchResultStore);
     return {
       weeklyCardsNum,
@@ -119,7 +119,7 @@ const useMainStore = defineStore("mainStore", {
       videoInfos,
       numOfListCards,
       searchRes,
-      searchResultPerPageNum,
+      perPageNum,
       curPageStartIndex,
       uniqueInfos,
       initialInfos,

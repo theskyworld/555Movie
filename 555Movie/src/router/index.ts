@@ -69,9 +69,14 @@ const routes = [
     ],
   },
   {
-    name : 'searchResult',
+    name: "searchResult",
     path: "/searchresult",
     component: () => import("../pages/SearchResultPage.vue"),
+  },
+  {
+    name: "videoplay",
+    path: "/videoplay/:index",
+    component: () => import("../pages/VideoPlayingPage.vue"),
   },
 ];
 

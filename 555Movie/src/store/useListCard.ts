@@ -5,9 +5,9 @@ const useListCardStore = defineStore("listCardStore", {
   state: () => {
     const title = ref("");
     const imgProps = reactive({
-      dataOriginal: "https://t1.szrtcpa.com/2023/06/02/5d14da53ec5b1.jpg",
+      dataOriginal: "https://t1.szrtcpa.com/2022/08/01/ac6f199bfdf7c.gif",
       alt: title.value,
-      src: "https://t1.szrtcpa.com/2023/06/02/5d14da53ec5b1.jpg",
+      src: "https://t1.szrtcpa.com/2022/08/01/ac6f199bfdf7c.gif",
     });
     const doubanScore = ref(7.5);
 

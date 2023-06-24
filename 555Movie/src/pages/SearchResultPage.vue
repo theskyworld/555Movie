@@ -5,17 +5,18 @@
         搜索
         <span>"{{ searchValue }}"</span>
         ,找到
-        <span>{{ titles.length }}</span>
+        <span>{{ uniqueInfos.length }}</span>
         部影片
       </span>
     </div>
     <div class="listCard">
       <ul>
-        <li v-for="i in searchResultPerPageNum">
+        <li v-for="i in curPageNum">
           <ListCard
-            :url="urls[i - 1 + curPageStartIndex]"
-            :pic="pics[i - 1 + curPageStartIndex]"
-            :title="titles[i - 1 + curPageStartIndex]"
+            :url="urls[i - 1 + perPageStartIndex]"
+            :pic="pics[i - 1 + perPageStartIndex]"
+            :title="titles[i - 1 + perPageStartIndex]"
+            @click="playVideo(i - 1 + perPageStartIndex)"
           ></ListCard>
         </li>
       </ul>
@@ -28,7 +29,7 @@
         @next-click="toNextPage()"
         @current-change="getCurrentPage"
         layout="prev, pager, next"
-        :total="titles.length"
+        :page-count="allPages"
       />
     </div>
   </div>
@@ -36,10 +37,11 @@
 <script setup>
 import ListCard from "../components/ListCard.vue";
 import { ElPagination } from "element-plus";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import useMainStore from "../store";
 import { storeToRefs } from "pinia";
+import router from "../router";
 
 const mainStore = useMainStore();
 let {
@@ -50,30 +52,48 @@ let {
   urlsRes,
   picsRes,
   titlesRes,
+  perPageNum,
 } = storeToRefs(mainStore);
-let { searchResultPerPageNum } = storeToRefs(mainStore);
-
-// 如果获取到的uniqueInfos的长度小于15，则总共就展示uniqueInfos的长度个卡片
-// 否则按照初始的方式进行展示（从第一个开始每页15个卡片，直到最后一页可能小于15个）
-searchResultPerPageNum.value =
-  uniqueInfos.value.length <= 15
-    ? uniqueInfos.value.length
-    : searchResultPerPageNum.value;
-const { setCurPageStartIndex, getDetails, setSearchRes } = mainStore;
+const { getDetails, setSearchRes } = mainStore;
 let { urls, pics, titles } = searchRes.value;
-const pageCounts = Math.ceil(titles.length / searchResultPerPageNum.value);
-const searchResultLastPageNum = ref(
-  titles.length % searchResultPerPageNum.value
-);
 
+// 设置当前页中展示的卡片数量
+// 期望每页中展示的数量为perPageNum = ref(10);
+// 如果当前页为第一页：如果要展示的卡片总数量（uniqueInfos.length）> perPageNum，则当前页展示perPageNum条
+//                    如果要展示的卡片数量 <= perPageNum，则当前页展示uniqueInfos.length条
+// 如果当前页为任意中间页：直接总共展示perPageNum条
+// 如果当前页为最后一页：直接展示剩余的要展示的数量
+
+const rawcurPageNum =
+  uniqueInfos.value.length <= perPageNum.value
+    ? uniqueInfos.value.length
+    : perPageNum.value;
+const curPageNum = ref(rawcurPageNum);
+// 总的页码值
+const allPages = Math.ceil(uniqueInfos.value.length / perPageNum.value);
+// 每页展示卡片的开始索引值
+const perPageStartIndex = ref(0);
+
+// 点击上一页或者下一页导致当前页码变化
+// 上一页
 function toPrevPage() {
-  searchResultPerPageNum.value = 15;
-  setCurPageStartIndex(true);
+  // 更新当前页展示的卡片数量
+  curPageNum.value = perPageNum.value;
+  // 更新当前页卡片开始的索引值
+  perPageStartIndex.value -= perPageNum.value;
 }
+
+// 下一页
 function toNextPage() {
-  // 请求第二页中的数据
+  // 更新当前页卡片开始的索引值
+  perPageStartIndex.value += perPageNum.value;
+
+  // 继续当前页的数据请求
   uniqueInfos.value.forEach(async (info, index) => {
-    if (index >= 15 && index < 30) {
+    if (
+      index >= perPageStartIndex.value &&
+      index < perPageStartIndex.value + curPageNum.value
+    ) {
       const res = await getDetails(info);
 
       const { url, pic, title } = res;
@@ -88,13 +108,31 @@ function toNextPage() {
   urls = searchRes.value.urls;
   pics = searchRes.value.pics;
   titles = searchRes.value.titles;
-
-  setCurPageStartIndex();
 }
+
+// 点击页码导致当前页码变化
+// 获取当前页的页码
 function getCurrentPage(val) {
-  if (val === pageCounts) {
-    searchResultPerPageNum.value = searchResultLastPageNum.value;
+  // val的值为当前页码的值
+  // 如果当前页码的值等于总的页码值，则表示为最后一页
+  // 更新curPageNum的值
+  if (val === allPages) {
+    curPageNum.value = uniqueInfos.value.length % perPageNum.value;
   }
+}
+
+// TODO 实现点击页码时导致页码的变化以及导致跳转到指定的页码
+
+// 点击卡片跳转到播放页面，播放相应的视频
+function playVideo(index) {
+  // console.log(index);
+  // 跳转到视频播放页面
+  router.push({
+    name: "videoplay",
+    params: {
+      index,
+    },
+  });
 }
 </script>
 <style scoped>

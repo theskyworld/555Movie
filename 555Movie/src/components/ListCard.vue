@@ -1,5 +1,5 @@
 <template>
-  <div id="listCardContainer" class="listCardContainer">
+  <div class="listCardContainer">
     <div class="mainContent">
       <div class="doubanScore">
         <span>豆瓣 : {{ doubanScore }}</span>
@@ -9,7 +9,7 @@
       </div>
       <div class="poster">
         <div class="imgContainer">
-          <img :src="props.pic" :alt="props.title" />
+          <img :src="props.pic ? props.pic : imgProps.src" :alt="props.title" />
         </div>
       </div>
     </div>
@@ -23,15 +23,14 @@
 
 <script setup>
 import useMainStore from "../store";
-import { storeToRefs } from 'pinia';
-import { defineProps } from 'vue';
+import { storeToRefs } from "pinia";
+import { defineProps } from "vue";
 
-
-const props = defineProps(['url', 'pic', 'title']);
+const props = defineProps(["url", "pic", "title"]);
 // console.log("🚀 ~ file: ListCard.vue:31 ~ props:", props)
 const mainStore = useMainStore();
 
-const { doubanScore } = storeToRefs(mainStore);
+const { doubanScore, imgProps } = storeToRefs(mainStore);
 </script>
 
 <style scoped>

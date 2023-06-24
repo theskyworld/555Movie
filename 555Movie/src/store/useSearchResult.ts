@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, reactive, } from "vue";
+import { ref, reactive } from "vue";
 
 const useSearchResultStore = defineStore("searchResultStore", {
   state: () => {
@@ -12,11 +12,11 @@ const useSearchResultStore = defineStore("searchResultStore", {
       curPageStartIndex: curPageStartIndex,
     });
 
-    // 每页展示的数据的数量，最后一个为总的数据数量/每页展示的数据数量
-    const searchResultPerPageNum = ref(15);
+    const perPageNum = 10;
+
     return {
       searchRes,
-      searchResultPerPageNum,
+      perPageNum,
       curPageStartIndex,
     };
   },

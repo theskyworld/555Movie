@@ -45,7 +45,15 @@ const useMainStore = defineStore("mainStore", {
     const { modules } = storeToRefs(slideShowStore);
     const { imgProps, doubanScore, title } = storeToRefs(listCardStore);
     const { isShowInfo } = storeToRefs(personCenterStore);
-    const { placeholderValue, searchValue } = storeToRefs(searchStore);
+    const {
+      placeholderValue,
+      searchValue,
+      uniqueInfos,
+      urlsRes,
+      picsRes,
+      titlesRes,
+      initialInfos,
+    } = storeToRefs(searchStore);
     const { sideBarMenus } = storeToRefs(slideBarStore);
     const { isShowHistory, watchHistories } = storeToRefs(watchHistoryStore);
     const { comicLandingPageCardsNum, comicLandingPageListTitles } =
@@ -113,12 +121,27 @@ const useMainStore = defineStore("mainStore", {
       searchRes,
       searchResultPerPageNum,
       curPageStartIndex,
+      uniqueInfos,
+      initialInfos,
+      urlsRes,
+      picsRes,
+      titlesRes,
     };
   },
 
   actions: {
     setSearchValue(val) {
       searchStore.setSearchValue(val);
+    },
+    getInfos : async function(keyWord) {
+      const res = await searchStore.getInfos(keyWord);
+      return res;
+    },
+    getDetails(info) {
+      return searchStore.getDetails(info);
+    },
+    getUniqueInfos(infos) {
+      return searchStore.getUniqueInfos(infos);
     },
     setSearchRes(urls, pics, titles) {
       searchResultStore.setSearchRes(urls, pics, titles);

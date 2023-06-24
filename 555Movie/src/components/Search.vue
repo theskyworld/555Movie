@@ -17,38 +17,22 @@ import { storeToRefs } from "pinia";
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import router from "../router";
-import Service from "../web/axios/axios.ts";
 
 const mainStore = useMainStore();
 const { placeholderValue } = storeToRefs(mainStore);
-const { setSearchValue, setSearchRes } = mainStore;
+const {
+  setSearchValue,
+  setSearchRes,
+  getInfos,
+  getDetails,
+  getUniqueInfos,
+  urlsRes,
+  picsRes,
+  titlesRes,
+} = mainStore;
 const inputIconElem = ref();
 const inputElem = ref();
 let wdv = ref("");
-
-// 从所有获取到的infos来获取所有唯一的info，避免重复请求
-function getUniqueInfos(infos) {
-  const copyOfInfos = infos ? infos : [];
-  const titles = new Set();
-  const res = [];
-  copyOfInfos.forEach((info) => {
-    titles.add(info.title);
-  });
-
-  const titlesArr = [...titles];
-  for (let i = 0; i < titlesArr.length; i++) {
-    copyOfInfos.forEach((info, index) => {
-      if (info && info.title === titlesArr[i]) {
-        // 删除已获取到的唯一的info，且不影响源数组中值的索引
-        titlesArr[i] = null;
-        copyOfInfos[index] = null;
-        res.push(info);
-      }
-    });
-  }
-
-  return res;
-}
 
 onMounted(() => {
   const searchCallBack = async () => {
@@ -57,52 +41,44 @@ onMounted(() => {
     setSearchValue(searchValue);
     inputElem.value.value = "";
 
+    // 如果输入的搜索内容为空，直接返回
+    if (!searchValue.trim()) return;
 
     try {
       // 发起初始的axios请求
       console.log("axios");
-      const initalRes = await new Service({
-        wd: searchValue
-      });
+      // 发起请求前清空上次搜索的urlsRes,picsRes,titlesRes,
+      urlsRes.value = [];
+      picsRes.value = [];
+      titlesRes.value = [];
+      const infos = await getInfos(searchValue);
 
-      const infos = initalRes.info;
-      const uniqueInfos = getUniqueInfos(infos);
-      // 分别存储最终获得的m3u8文件、图片地址和标题
-      const urlsRes = ref([]);
-      const picsRes = ref([]);
-      const titlesRes = ref([]);
+      const uniqueInfos = await getUniqueInfos(infos);
 
       // 根据所有唯一的info来获取当前info对应的url和pic地址
+      // 请求第一页中的数据
       uniqueInfos.forEach(async (info, index) => {
         if (index < 15) {
-          const { id, flag } = info;
-        const res = await new Service({
-          id,
-          flag,
-        });
+          const res = await getDetails(info);
 
-        const { url, pic, title } = res;
-        urlsRes.value.push(url);
-        picsRes.value.push(pic);
-        titlesRes.value.push(title);
+          const { url, pic, title } = res;
+          urlsRes.value.push(url);
+          picsRes.value.push(pic);
+          titlesRes.value.push(title);
         }
       });
 
       // 存储获取到的结果值
-      setSearchRes(urlsRes, picsRes, titlesRes);
-      // 跳转到结果页面
-      router.push({
-        name: "searchResult",
-      });
-
+      setSearchRes(urlsRes.value, picsRes.value, titlesRes.value);
     } catch (err) {
-        console.log(err);
-    };
+      console.log(err);
+    }
 
-  
+    // 跳转到结果页面
+    router.push({
+      name: "searchResult",
+    });
   };
-
-
 
   // 点击搜索框进行搜索
   inputIconElem.value.addEventListener("click", searchCallBack);

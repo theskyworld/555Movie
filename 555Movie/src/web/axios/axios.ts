@@ -1,205 +1,120 @@
-import axios, { AxiosRequestConfig, AxiosPromise, Axios } from "axios";
-import { storeToRefs } from "pinia";
-import useMainStore from "../../store"
-
-// import { ElLoading, LoadingOptions } from "element-plus";
-// import { baseUrl1 } from "../../utils/urls";
-
-// interface LoadingInstance {
-//   target: any;
-//   count: number;
-// }
-// interface Options {
-//   // 是否开启取消重复请求, 默认为 true
-//   CancelDuplicateRequest?: boolean;
-//   // 是否开启loading层效果, 默认为false
-//   loading?: boolean;
-//   // 是否开启简洁的数据结构响应, 默认为true
-//   reductDataFormat?: boolean;
-//   // 是否开启接口错误信息展示,默认为true
-//   showErrorMessage?: boolean;
-//   // 是否开启code不为0时的信息提示, 默认为true
-//   showCodeMessage?: boolean;
-//   // 是否开启code为0时的信息提示, 默认为false
-//   showSuccessMessage?: boolean;
-//   // 当前请求使用另外的用户token
-//   anotherToken?: string;
-// }
-// interface anyObj {
-//   [key: string]: any;
-// }
-
-// const loadingInstance: LoadingInstance = {
-//   target: null,
-//   count: 0,
-// };
-// const pendingMap = new Map();
-// // 创建axios
-// function createAxios(
-//   axiosConfig: AxiosRequestConfig,
-//   options: Options = {},
-//   loading: LoadingOptions = {}
-// ): AxiosPromise {
-//   const axiosInstance = axios.create({
-//     baseURL: baseUrl1.baseUrl,
-//     timeout: 1000 * 10,
-//     headers: {},
-//     responseType: "json",
-//   });
-
-//   options = Object.assign(
-//     {
-//       CancelDuplicateRequest: true, // 是否开启取消重复请求, 默认为 true
-//       loading: false, // 是否开启loading层效果, 默认为false
-//     },
-//     options
-//   );
-
-//   // 请求拦截
-//   axiosInstance.interceptors.request.use(
-//     (config) => {
-//       // 移除重复请求
-//       removePending(config);
-
-//       // 储存每个请求的唯一cancel回调,并作为标识
-//       options.CancelDuplicateRequest && addPending(config);
-
-//       // 创建loading实例
-//       if (options.loading) {
-//         loadingInstance.count++;
-//         if (loadingInstance.count === 1) {
-//           loadingInstance.target = ElLoading.service(loading);
-//         }
-//       }
-
-//       return config;
-//     },
-//     (err) => {
-//       return Promise.reject(err);
-//     }
-//   );
-
-//   // 响应拦截
-//   axiosInstance.interceptors.response.use((res) => {
-//     removePending(res.config);
-//     options.loading && closeLoading(options); // 关闭loading
-
-//     return res;
-//   });
-
-//   return axiosInstance(axiosConfig);
-// }
-
-// // 关闭Loading实例
-// function closeLoading(options: Options) {
-//   if (options.loading && loadingInstance.count > 0) loadingInstance.count--;
-//   if (loadingInstance.count === 0) {
-//     loadingInstance.target.close();
-//     loadingInstance.target = null;
-//   }
-// }
-
-// 储存每个请求的唯一cancel回调, 以此为标识
-// function addPending(config: AxiosRequestConfig) {
-//   const pendingKey = getPendingKey(config);
-//   config.cancelToken =
-//     config.cancelToken ||
-//     new axios.CancelToken((cancel) => {
-//       if (!pendingMap.has(pendingKey)) {
-//         pendingMap.set(pendingKey, cancel);
-//       }
-//     });
-// }
-
-// // 删除重复的请求
-// function removePending(config: AxiosRequestConfig) {
-//   const pendingKey = getPendingKey(config);
-//   if (pendingMap.has(pendingKey)) {
-//     const cancelToken = pendingMap.get(pendingKey);
-//     cancelToken(pendingKey);
-//     pendingMap.delete(pendingKey);
-//   }
-// }
-
-// // 生成每个请求的唯一key
-// function getPendingKey(config: AxiosRequestConfig) {
-//   let { data } = config;
-//   const { url, method, params, headers } = config;
-//   if (typeof data === "string") data = JSON.parse(data); // response里面返回的config.data是个字符串对象
-//   return [
-//     url,
-//     method,
-//     headers && (headers as anyObj).batoken ? (headers as anyObj).batoken : "",
-//     headers && (headers as anyObj)["ba-user-token"]
-//       ? (headers as anyObj)["ba-user-token"]
-//       : "",
-//     JSON.stringify(params),
-//     JSON.stringify(data),
-//   ].join("&");
-// }
-
-// export default createAxios;
+import axios, {
+  AxiosInstance,
+} from "axios";
 
 
-
-
-function getRandomNum(length) {
-  let res = "";
-  for (let i = 0; i < length; i++) {
-    res += Math.ceil(Math.random() * 10);
-  }
-  return res;
+interface AxiosParams {
+  out?: string;
+  cb?: string;
+  _?: string;
+  wd?: any;
+  flag?: any;
+  id?: any;
 }
+interface requestInterceptorsHandleRes {
+  configHandle: (config) => any;
+  errorHandle: (err) => any;
+}
+interface responseInterceptorsHandleRes {
+  configHandle: (res) => any;
+  errorHandle: (err) => any;
+}
+// 封装axios实例
+class AxiosService {
+  private _baseURL: string;
+  private _timeout: number;
+  private _service: AxiosInstance | null;
+  private _params: AxiosParams = {};
+  private _paramsArg: AxiosParams = {};
 
-function Service(params = {}) {
-    const service = axios.create({
-        baseURL: "/apis.php",
-        method : 'get',
-      timeout: 1000 * 10,
-      params: {
-        out: "jsonp",
-        cb: "jQuery" + getRandomNum(21) + "_" + getRandomNum(13),
-        _: getRandomNum(13),
-        wd: params.wd || null,
-          flag: params.flag || null,
-        id : params.id || null,
-      },
+  constructor() {
+    this._baseURL = "/apis.php";
+    this._timeout = 1000 * 10;
+    this._service = null;
+  }
+
+  // 初始化axios实例
+  _init() {
+    this._params = {
+      out: "jsonp",
+      cb: "jQuery" + this._getRandomNum(21) + "_" + this._getRandomNum(13),
+      _: this._getRandomNum(13),
+      wd: this._paramsArg?.wd || null,
+      flag: this._paramsArg?.flag || null,
+      id: this._paramsArg?.id || null,
+    };
+
+    this._service = axios.create({
+      baseURL: this._baseURL,
+      timeout: this._timeout,
+      params: this._params,
     });
 
-    // 请求拦截器
-    service.interceptors.request.use(
-      (config) => {
-        return config;
-      },
-      (error) => {}
-    );
+    // 配置请求和响应拦截器
+    const requestInterceptorsHandleRes = this._requestInterceptorsHandle();
+    const responseInterceptorsHandleRes = this._responseInterceptorsHandle();
 
-    //  响应拦截器
-    service.interceptors.response.use((res) => {
+    this._service.interceptors.request.use(
+      requestInterceptorsHandleRes.configHandle,
+      requestInterceptorsHandleRes.errorHandle,
+      {
+        synchronous: true,
+      }
+    );
+    this._service.interceptors.response.use(
+      responseInterceptorsHandleRes.responseHandle,
+      responseInterceptorsHandleRes.errorHandle
+    );
+  }
+
+  // 请求拦截器处理函数
+  _requestInterceptorsHandle(): requestInterceptorsHandleRes {
+    const configHandle = (config) => {
+      return config;
+    };
+    const errorHandle = (err) => {};
+
+    return {
+      configHandle,
+      errorHandle,
+    };
+  }
+
+  // 响应拦截器处理函数
+  _responseInterceptorsHandle() {
+    const responseHandle = (res) => {
       const startIndex = res.data.indexOf("{");
       const endIndex = res.data.lastIndexOf("}");
       return JSON.parse(res.data.substring(startIndex, endIndex + 1));
-    });
+    };
+    const errorHandle = (err) => {
+      if (err.response.status === 401) {
+      }
 
-    return service.get('/apis.php');
+      return Promise.reject(err);
+    }
+
+    return {
+      responseHandle,
+      errorHandle,
+    }
+  }
+
+  _getRandomNum(length) {
+    let res = "";
+    for (let i = 0; i < length; i++) {
+      res += Math.ceil(Math.random() * 10);
+    }
+    return res;
+  }
+
+  // GET
+  get(params: AxiosParams) {
+    this._paramsArg = params;
+    this._init();
+    return this._service?.get(this._baseURL);
+  }
 }
 
-
-export default Service;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const service = new AxiosService();
+export const getService = service.get.bind(service);

@@ -23,6 +23,7 @@
     <div class="pagination">
       <el-pagination
         background
+        :hide-on-single-page="true"
         @prev-click="toPrevPage()"
         @next-click="toNextPage()"
         @current-change="getCurrentPage"
@@ -41,10 +42,25 @@ import useMainStore from "../store";
 import { storeToRefs } from "pinia";
 
 const mainStore = useMainStore();
-const { searchValue, searchRes, curPageStartIndex } = storeToRefs(mainStore);
+let {
+  searchValue,
+  searchRes,
+  curPageStartIndex,
+  uniqueInfos,
+  urlsRes,
+  picsRes,
+  titlesRes,
+} = storeToRefs(mainStore);
 let { searchResultPerPageNum } = storeToRefs(mainStore);
-const { setCurPageStartIndex } = mainStore;
-const { urls, pics, titles } = searchRes.value;
+
+// 如果获取到的uniqueInfos的长度小于15，则总共就展示uniqueInfos的长度个卡片
+// 否则按照初始的方式进行展示（从第一个开始每页15个卡片，直到最后一页可能小于15个）
+searchResultPerPageNum.value =
+  uniqueInfos.value.length <= 15
+    ? uniqueInfos.value.length
+    : searchResultPerPageNum.value;
+const { setCurPageStartIndex, getDetails, setSearchRes } = mainStore;
+let { urls, pics, titles } = searchRes.value;
 const pageCounts = Math.ceil(titles.length / searchResultPerPageNum.value);
 const searchResultLastPageNum = ref(
   titles.length % searchResultPerPageNum.value
@@ -55,17 +71,31 @@ function toPrevPage() {
   setCurPageStartIndex(true);
 }
 function toNextPage() {
+  // 请求第二页中的数据
+  uniqueInfos.value.forEach(async (info, index) => {
+    if (index >= 15 && index < 30) {
+      const res = await getDetails(info);
+
+      const { url, pic, title } = res;
+      urlsRes.value.push(url);
+      picsRes.value.push(pic);
+      titlesRes.value.push(title);
+    }
+  });
+  // 存储获取到的结果值
+  setSearchRes(urlsRes.value, picsRes.value, titlesRes.value);
+  searchRes = storeToRefs(mainStore).searchRes;
+  urls = searchRes.value.urls;
+  pics = searchRes.value.pics;
+  titles = searchRes.value.titles;
+
   setCurPageStartIndex();
 }
 function getCurrentPage(val) {
-  console.log(val, pageCounts);
   if (val === pageCounts) {
-    console.log("x", searchResultLastPageNum.value);
     searchResultPerPageNum.value = searchResultLastPageNum.value;
   }
 }
-
-// console.log("🚀 ~ file: SearchResultPage.vue:35 ~ searchRes:", searchRes.value);
 </script>
 <style scoped>
 .searchResultPageContainer {

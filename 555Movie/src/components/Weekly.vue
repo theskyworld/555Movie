@@ -5,8 +5,12 @@
         <h2>追剧周表</h2>
         <div class="weeks">
           <ul>
-            <li v-for="week in weeks" v-key="week">
-              <span>{{ week }}</span>
+            <li
+              v-for="week in weeks"
+              v-key="week"
+              @click="doGetVideoInfos(week)"
+            >
+              <span>{{ week.date }}</span>
             </li>
           </ul>
         </div>
@@ -14,7 +18,13 @@
       <div class="content">
         <ul>
           <li v-for="i in cardsNum">
-            <ListCard> </ListCard>
+            <ListCard
+              :pic="pics[i - 1]"
+              :url="urls[i - 1]"
+              :title="titles[i - 1]"
+              @click="toVideoDetailPage()"
+            >
+            </ListCard>
           </li>
         </ul>
       </div>
@@ -26,11 +36,36 @@ import { ref } from "vue";
 import ListCard from "../components/ListCard.vue";
 import useMainStore from "../store";
 import { storeToRefs } from "pinia";
+import { getService } from "../web/axios/axios.ts";
 
 const mainStore = useMainStore();
-const { weeklyCardsNum : cardsNum, weeks } = storeToRefs(mainStore);
+const { weeklyCardsNum: cardsNum, weeks } = storeToRefs(mainStore);
+const { getInfos, getDetails } = mainStore;
+
+const urls = ref([]);
+const pics = ref([]);
+const titles = ref([]);
+
+// 根据日期的id以及关键字发起get请求，请求Info，然后请求url和pic地址
+function doGetVideoInfos(week) {
+  // 清空上次的urls和pics
+  urls.value = [];
+  pics.value = [];
+  titles.value = [];
+  try {
+    week.videoItems.forEach(async (item) => {
+      const infos = await getInfos(item);
+      const info = infos ? infos[0] : null;
+      const detail = await getDetails(info);
+      const { pic, url, title } = detail;
+      urls.value.push(url);
+      pics.value.push(pic);
+      titles.value.push(title);
+    });
+  } catch (err) {}
+}
 </script>
-<style scoped>     
+<style scoped>
 .weeklyWrapper {
   width: 100%;
 }

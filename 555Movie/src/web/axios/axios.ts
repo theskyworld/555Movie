@@ -1,7 +1,4 @@
-import axios, {
-  AxiosInstance,
-} from "axios";
-
+import axios, { AxiosInstance } from "axios";
 
 interface AxiosParams {
   out?: string;
@@ -26,11 +23,15 @@ class AxiosService {
   private _service: AxiosInstance | null;
   private _params: AxiosParams = {};
   private _paramsArg: AxiosParams = {};
+  private _curRequestId: string;
 
   constructor() {
+    // this._baseURL = "http:jx.kuvun.cc";
     this._baseURL = "/apis.php";
     this._timeout = 1000 * 20;
     this._service = null;
+    // 记录当前正发出去的请求，
+    this._curRequestId = "";
   }
 
   // 初始化axios实例
@@ -70,6 +71,22 @@ class AxiosService {
   // 请求拦截器处理函数
   _requestInterceptorsHandle(): requestInterceptorsHandleRes {
     const configHandle = (config) => {
+      const sentDate = new Date();
+      // 给当前请求添加一个id，用于取消重复请求
+      const curRequestId = sentDate.getTime() + "_" + this._getRandomNum(5);
+      config.id = curRequestId;
+      
+
+      // 记录并打印请求发出的时间
+      console.log(
+        `${config.method.toUpperCase()} request sent to ${
+          config.url
+        } at ${sentDate.getFullYear()} 年 ${
+          sentDate.getMonth() + 1
+        } 月${sentDate.getDate()} 日${sentDate.getHours()} 时${sentDate.getMinutes()} 分${sentDate.getSeconds()} 秒`
+      );
+
+      this._curRequestId = config.id;
       return config;
     };
     const errorHandle = (err) => {};
@@ -92,12 +109,12 @@ class AxiosService {
       // }
 
       return Promise.reject(err);
-    }
+    };
 
     return {
       responseHandle,
       errorHandle,
-    }
+    };
   }
 
   _getRandomNum(length) {
@@ -108,10 +125,15 @@ class AxiosService {
     return res;
   }
 
+  // 取消请求
+   _cancelToken() {
+     
+  }
   // GET
   get(params: AxiosParams) {
     this._paramsArg = params;
     this._init();
+    // return this._service?.get("/apis.php");
     return this._service?.get(this._baseURL);
   }
 }
